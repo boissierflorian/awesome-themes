@@ -16,6 +16,11 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
 local my_table      = awful.util.table or gears.table
 local dpi           = require("beautiful.xresources").apply_dpi
 
+local DEV_MODE = false
+if DEV_MODE then
+    require("debugger")
+end
+
 -- Legacy
 require("awful.hotkeys_popup.keys")
 require("awful.autofocus")
@@ -28,3 +33,6 @@ require("menu")
 require("signals")
 require("bindings.global")
 require("rules")
+
+-- Modules
+require("modules")

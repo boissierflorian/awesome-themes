@@ -1,10 +1,3 @@
---[[
-
-     Copland Awesome WM theme 2.0
-     github.com/lcpz
-
---]]
-
 local gears = require("gears")
 local lain  = require("lain")
 local awful = require("awful")
@@ -16,6 +9,8 @@ local awesome, client = awesome, client
 local my_table = require("my_table")
 local math = { floor = math.floor }
 local apps = require("apps")
+local separators = require("wdgpack.separators")
+local clickable = require("wdgpack.clickable")
 
 local theme                                     = {}
 theme.dir                                       = beautiful.themes_dir .. "/minimal"
@@ -32,6 +27,9 @@ theme.bg_urgent                                 = "#FFFFFF"
 theme.border_width                              = dpi(4)
 theme.border_normal                             = "#3e646f"
 theme.border_focus                              = "#3e646f"
+theme.exit_screen_bg                            = "#1c1c22"
+theme.exit_screen_border                        = "#3e646f"
+theme.exit_screen_border_width                  = dpi(4)
 theme.taglist_fg_focus                          = "#FFFFFF"
 theme.taglist_bg_focus                          = "#1c1c22"
 theme.taglist_bg_normal                         = "#1c1c22"
@@ -56,6 +54,12 @@ theme.vol_mute                                  = theme.icon_dir .. "vol_mute.pn
 theme.disk                                      = theme.icon_dir .. "disk.png"
 theme.net                                       = theme.icon_dir .. "net.png"
 theme.ram                                       = theme.icon_dir .. "ram.png"
+theme.shutdown                                  = theme.icon_dir .. "shutdown.png"
+theme.cancel                                    = theme.icon_dir .. "cancel.png"
+theme.reboot                                    = theme.icon_dir .. "reboot.png"
+theme.lock                                      = theme.icon_dir .. "lock.png"
+theme.suspend                                   = theme.icon_dir .. "suspend.png"
+theme.quit                                      = theme.icon_dir .. "quit.png"
 theme.ac                                        = theme.icon_dir .. "ac.png"
 theme.bat                                       = theme.icon_dir .. "bat.png"
 theme.bat_low                                   = theme.icon_dir .. "bat_low.png"
@@ -104,33 +108,26 @@ local blue   = theme.fg_focus
 local red    = "#EB8F8F"
 local green  = "#8FEB8F"
 
-local space_separator = function(width, border)
-    local widget = wibox.widget.textbox()
-    widget.forced_width = width
+-- Separators
+local bounds_sep = separators.space(dpi(10))
+local sm_sep = separators.space(dpi(5))
 
-    if border then
-        return wibox.container.margin(widget, 0, 0, 0, dpi(4), theme.fg_focus)
-    end
-
-    return widget
-end
-
-local bounds_sep = space_separator(dpi(10))
-local sm_sep = space_separator(dpi(5))
-local widget_fake_sep = space_separator(dpi(8), true)
 
 -- Textclock
---os.setlocale(os.getenv("LANG")) -- to localize the clock
-local mytextclock      = wibox.widget.textclock("<span font='Hack 13'>%a %b %d, %H:%M</span>")
-      mytextclock.font = theme.font
-      mytextclock.align = "center"
-local clock_container      = wibox.container.margin(mytextclock, 0, 0, 0, dpi(4), theme.border_normal)
-local time_widget = wibox.widget {
-    layout = wibox.layout.align.horizontal,
-    widget_fake_sep,
-    clock_container,
-    widget_fake_sep
+local textclock           = wibox.widget.textclock("<span font='Hack 13'>%a %b %d, %H:%M</span>")
+      textclock.font      = theme.font
+      textclock.align     = "center"
+
+local clock_sep           = separators.space(dpi(8))
+
+local textclock_container = wibox.widget {
+    layout = wibox.layout.fixed.horizontal,
+    clock_sep,
+    textclock,
+    clock_sep,
 }
+
+local time_widget = wibox.container.margin(textclock_container, 0, 0, 0, dpi(4), theme.border_normal)
 time_widget.point = function(geo, args)
     return {
         x = args.parent.width / 2,
@@ -140,7 +137,7 @@ end
 
 -- Calendar
 theme.cal = lain.widget.cal({
-    attach_to = { mytextclock },
+    attach_to = { textclock },
     notification_preset = {
         font = "Hack 13",
         fg   = theme.fg_normal,
@@ -324,6 +321,15 @@ local lain_mem = lain.widget.mem {
     end
 }
 
+local shutdown_icon = wibox.widget.imagebox(theme.shutdown)
+
+clickable(shutdown_icon, {
+    left_button_action = function()
+        local exit_screen = _G["exit_screen"]
+        return exit_screen and exit_screen.show()
+    end
+})
+
 -- Eminent-like task filtering
 -- local orig_filter = awful.widget.taglist.filter.all
 
@@ -433,11 +439,8 @@ function theme.at_screen_connect(s)
             s.mytaglist,
         },
         { -- Middle widget
-            layout = wibox.layout.align.horizontal,
             layout = wibox.layout.manual,
-            expand = 'outside',
             sm_sep,
-            -- space_separator(dpi(200)),
             time_widget,
             sm_sep
         },
@@ -460,7 +463,9 @@ function theme.at_screen_connect(s)
             network_widget,
             sm_sep,
             s.mylayoutbox,
-            bounds_sep
+            sm_sep,
+            shutdown_icon,
+            bounds_sep,
         },
     }
 end

@@ -20,7 +20,7 @@ local themes = {
 local chosen_theme = themes[1]
 
 awful.util.shell = apps.terminal
-awful.util.tagnames = { "1", "2", "3" }
+awful.util.tagnames = { "1", "2", "3", "4" }
 
 awful.layout.layouts = {
     awful.layout.suit.tile,

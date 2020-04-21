@@ -41,7 +41,19 @@ local globalkeys =
         {modkey},
         "l",
         function()
+            local exit_screen = _G["exit_screen"]
+            if exit_screen and exit_screen.visible() then return end
             os.execute(apps.scrlocker)
+        end,
+        {description = "lock screen", group = groups.hotkeys}
+    ),
+    -- Exit screen
+    awful.key(
+        {modkey, "Control"},
+        "l",
+        function()
+            local exit_screen = _G["exit_screen"]
+            return exit_screen and exit_screen.show()
         end,
         {description = "lock screen", group = groups.hotkeys}
     ),
@@ -389,16 +401,6 @@ local globalkeys =
             end
         end,
         {description = "show filesystem", group = groups.widget}
-    ),
-    awful.key(
-        {altkey},
-        "w",
-        function()
-            if beautiful.weather then
-                beautiful.weather.show(7)
-            end
-        end,
-        {description = "show weather", group = groups.widget}
     ),
     -- Brightness
     awful.key(
