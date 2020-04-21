@@ -7,10 +7,11 @@ local keys = require("bindings.keys")
 local modkey = keys.modkey
 local apps = require("apps")
 local dpi           = beautiful.xresources.apply_dpi
-local debug         = require("debug")
+-- local debug         = require("debug")
 
-local themes_dir = debug.getinfo(1, 'S').source:match[[^@(.*/).*$]]
-beautiful.themes_dir = themes_dir:sub(0, #themes_dir - 1)
+-- local themes_dir = debug.getinfo(1, 'S').source:match[[^@(.*/).*$]]
+-- beautiful.themes_dir = themes_dir:sub(0, #themes_dir - 1)
+beautiful.themes_dir = string.format("%s/.config/awesome/themes", os.getenv("HOME"))
 
 local themes = {
     "minimal"

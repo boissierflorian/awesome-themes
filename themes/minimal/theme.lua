@@ -15,6 +15,7 @@ local dpi   = require("beautiful.xresources").apply_dpi
 local awesome, client = awesome, client
 local my_table = require("my_table")
 local math = { floor = math.floor }
+local apps = require("apps")
 
 local theme                                     = {}
 theme.dir                                       = beautiful.themes_dir .. "/minimal"
@@ -28,7 +29,7 @@ theme.bg_normal                                 = "#1c1c22"
 theme.bg_focus                                  = "#1c1c22"
 theme.fg_urgent                                 = "#000000"
 theme.bg_urgent                                 = "#FFFFFF"
-theme.border_width                              = dpi(2)
+theme.border_width                              = dpi(4)
 theme.border_normal                             = "#3e646f"
 theme.border_focus                              = "#3e646f"
 theme.taglist_fg_focus                          = "#FFFFFF"
@@ -54,6 +55,7 @@ theme.vol_no                                    = theme.icon_dir .. "vol_no.png"
 theme.vol_mute                                  = theme.icon_dir .. "vol_mute.png"
 theme.disk                                      = theme.icon_dir .. "disk.png"
 theme.net                                       = theme.icon_dir .. "net.png"
+theme.ram                                       = theme.icon_dir .. "ram.png"
 theme.ac                                        = theme.icon_dir .. "ac.png"
 theme.bat                                       = theme.icon_dir .. "bat.png"
 theme.bat_low                                   = theme.icon_dir .. "bat_low.png"
@@ -119,8 +121,9 @@ local widget_fake_sep = space_separator(dpi(8), true)
 
 -- Textclock
 --os.setlocale(os.getenv("LANG")) -- to localize the clock
-local mytextclock      = wibox.widget.textclock("<span font='Hack 13'>%a %b %d, %H:%M %p</span>")
+local mytextclock      = wibox.widget.textclock("<span font='Hack 13'>%a %b %d, %H:%M</span>")
       mytextclock.font = theme.font
+      mytextclock.align = "center"
 local clock_container      = wibox.container.margin(mytextclock, 0, 0, 0, dpi(4), theme.border_normal)
 local time_widget = wibox.widget {
     layout = wibox.layout.align.horizontal,
@@ -128,6 +131,12 @@ local time_widget = wibox.widget {
     clock_container,
     widget_fake_sep
 }
+time_widget.point = function(geo, args)
+    return {
+        x = args.parent.width / 2,
+        y = dpi(4)
+    }
+end
 
 -- Calendar
 theme.cal = lain.widget.cal({
@@ -250,7 +259,7 @@ theme.volume = lain.widget.alsabar {
 }
 volicon:buttons(my_table.join (
           awful.button({}, 1, function()
-            awful.spawn(string.format("%s -e alsamixer", awful.util.terminal))
+            awful.spawn(string.format("%s -e alsamixer", apps.terminal))
           end),
           awful.button({}, 2, function()
             os.execute(string.format("%s set %s 100%%", theme.volume.cmd, theme.volume.channel))
@@ -277,7 +286,17 @@ local network_icon = wibox.widget.imagebox(theme.net)
 local network_widget = wibox.widget.textbox()
 network_widget.font = theme.font
 network_widget.align = "center"
-network_widget.forced_width = dpi(100)
+-- network_widget.forced_width = dpi(85)
+
+function string_limit(value, max)
+    local svalue = tostring(value or "")
+    if svalue and #svalue > max then
+        return svalue:sub(0, max)
+    end
+
+    return svalue
+end
+
 
 local lain_net = lain.widget.net {
     wifi_state = "on",
@@ -287,11 +306,23 @@ local lain_net = lain.widget.net {
         sent = math.floor(tonumber(sent))
         received = math.floor(tonumber(received))
 
-        network_widget.text = string.format("%d / %d KB", sent, received)
+        sent = string_limit(sent, 3)
+        received = string_limit(received, 3)
+
+        network_widget.text = string.format("%3d / %3d KB", sent, received)
     end
 }
 
-
+local ram_icon = wibox.widget.imagebox(theme.ram)
+local ram_widget = wibox.widget.textbox()
+ram_widget.font = theme.font
+ram_widget.align = "center"
+local lain_mem = lain.widget.mem {
+    settings        = function()
+        local mem_used        = mem_now.used
+        ram_widget.text = mem_used .. " MB"
+    end
+}
 
 -- Eminent-like task filtering
 -- local orig_filter = awful.widget.taglist.filter.all
@@ -403,8 +434,10 @@ function theme.at_screen_connect(s)
         },
         { -- Middle widget
             layout = wibox.layout.align.horizontal,
+            layout = wibox.layout.manual,
             expand = 'outside',
             sm_sep,
+            -- space_separator(dpi(200)),
             time_widget,
             sm_sep
         },
@@ -415,6 +448,10 @@ function theme.at_screen_connect(s)
             -- fsicon,
             -- fsbar,
             batwidget,
+            sm_sep,
+            ram_icon,
+            sm_sep,
+            ram_widget,
             sm_sep,
             volicon,
             volpercent,

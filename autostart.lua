@@ -9,5 +9,5 @@ end
 
 --run_once({ "urxvtd", "unclutter -root" }) -- entries must be separated by commas
 run_once({
-    "compton -b -c"
+    "compton -c --backend glx --vsync opengl-swc"
 })
