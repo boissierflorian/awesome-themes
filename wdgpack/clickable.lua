@@ -1,6 +1,9 @@
+---------------------------------------------------------------------
+-- LIBS
+---------------------------------------------------------------------
 local wibox    = require("wibox")
 local awful    = require("awful")
-local my_table = require("my_table")
+local mytable = require("mytable")
 local mouse = mouse
 
 local clickable = { mt = {} }
@@ -37,7 +40,7 @@ function clickable.new(widget, args)
     end)
 
     widget:buttons(
-        my_table.join(
+        mytable.join(
             awful.button({}, 1, left_button_action),
             awful.button({}, 3, right_button_action)
         )

@@ -1,3 +1,6 @@
+---------------------------------------------------------------------
+-- LIBS
+---------------------------------------------------------------------
 local awful = require("awful")
 
 -- This function will run once every time Awesome is started

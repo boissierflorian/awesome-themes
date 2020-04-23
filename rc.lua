@@ -1,7 +1,9 @@
 -- LuaRocks
 require "luarocks.loader"
 
--- Required libraries
+---------------------------------------------------------------------
+-- LIBS
+---------------------------------------------------------------------
 local awesome, client, mouse, screen, tag = awesome, client, mouse, screen, tag
 local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, table, tostring, tonumber, type
 
@@ -13,13 +15,10 @@ local naughty       = require("naughty")
 local lain          = require("lain")
 local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
-local my_table      = awful.util.table or gears.table
 local dpi           = require("beautiful.xresources").apply_dpi
 
-local DEV_MODE = true
-if DEV_MODE then
-    require("debugger")
-end
+local DEV_MODE = false
+if DEV_MODE then require("debugger") end
 
 -- Legacy
 require("awful.hotkeys_popup.keys")

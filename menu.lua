@@ -1,11 +1,17 @@
-local awesome = awesome
-local freedesktop = require("freedesktop")
-local beautiful = require("beautiful")
-local awful = require("awful")
+---------------------------------------------------------------------
+-- LIBS
+---------------------------------------------------------------------
+local awesome       = awesome
+local freedesktop   = require("freedesktop")
+local beautiful     = require("beautiful")
+local awful         = require("awful")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
-local apps = require("apps")
+local apps          = require("apps")
 local dpi           = beautiful.xresources.apply_dpi
 
+---------------------------------------------------------------------
+-- Menu Definition
+---------------------------------------------------------------------
 local myawesomemenu = {
     { "hotkeys", function() return false, hotkeys_popup.show_help end },
     { "manual", apps.terminal .. " -e man awesome" },

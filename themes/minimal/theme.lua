@@ -1,16 +1,19 @@
-local gears = require("gears")
-local lain  = require("lain")
-local awful = require("awful")
-local wibox = require("wibox")
-local beautiful = require("beautiful")
-local dpi   = require("beautiful.xresources").apply_dpi
-
+---------------------------------------------------------------------
+-- LIBS
+---------------------------------------------------------------------
 local awesome, client = awesome, client
-local my_table = require("my_table")
-local math = { floor = math.floor }
-local apps = require("apps")
+
+local gears      = require("gears")
+local lain       = require("lain")
+local awful      = require("awful")
+local wibox      = require("wibox")
+local beautiful  = require("beautiful")
+local dpi        = require("beautiful.xresources").apply_dpi
+local mytable   = require("mytable")
+local math       = { floor = math.floor }
+local apps       = require("apps")
 local separators = require("wdgpack.separators")
-local clickable = require("wdgpack.clickable")
+local clickable  = require("wdgpack.clickable")
 
 local theme                                     = {}
 theme.dir                                       = beautiful.themes_dir .. "/minimal"
@@ -245,7 +248,7 @@ theme.volume = lain.widget.alsabar {
         unmute       = theme.fg_normal
     }
 }
-volicon:buttons(my_table.join (
+volicon:buttons(mytable.join (
           awful.button({}, 1, function()
             awful.spawn(string.format("%s -e alsamixer", apps.terminal))
           end),
@@ -377,7 +380,7 @@ function theme.at_screen_connect(s)
     -- Create an imagebox widget which will contains an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
     s.mylayoutbox = awful.widget.layoutbox(s)
-    s.mylayoutbox:buttons(my_table.join(
+    s.mylayoutbox:buttons(mytable.join(
                            awful.button({}, 1, function () awful.layout.inc( 1) end),
                            awful.button({}, 2, function () awful.layout.set( awful.layout.layouts[1] ) end),
                            awful.button({}, 3, function () awful.layout.inc(-1) end),

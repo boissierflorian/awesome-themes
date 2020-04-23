@@ -1,8 +1,14 @@
-local awful = require("awful")
-local bindings = require("bindings")
+---------------------------------------------------------------------
+-- LIBS
+---------------------------------------------------------------------
+local awful         = require("awful")
+local bindings      = require("bindings")
 local clientbuttons = bindings.mouse.client
-local clientkeys = bindings.client
+local clientkeys    = bindings.client
 
+---------------------------------------------------------------------
+-- Clients Rule
+---------------------------------------------------------------------
 local clients_rule = { 
     rule = { },
     properties = {
@@ -17,6 +23,9 @@ local clients_rule = {
      }
 }
 
+---------------------------------------------------------------------
+-- Titlebars Rule
+---------------------------------------------------------------------
 local titlebars_rule = { 
     rule_any = { 
         type = { 

@@ -1,0 +1,16 @@
+insidecolor="00000000"
+ringcolor=ffffffff
+keyhlcolor=3e646f
+bshlcolor=3e646f
+separatorcolor=00000000
+insidevercolor=00000000
+insidewrongcolor=3e646f
+ringvercolor=ffffffff
+ringwrongcolor=ffffffff
+verifcolor=ffffffff
+timecolor=ffffffff
+datecolor=ffffffff
+loginbox=00000066
+font="Fira Code"
+locktext='Type password to unlock...'
+lock_timeout=5

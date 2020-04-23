@@ -1,8 +1,14 @@
-local awful = require("awful")
-local gears = require("gears")
-local keys = require("bindings.keys")
+---------------------------------------------------------------------
+-- LIBS
+---------------------------------------------------------------------
+local awful   = require("awful")
+local mytable = require("mytable")
+local keys    = require("bindings.keys")
 
-local clientbuttons = gears.table.join(
+---------------------------------------------------------------------
+-- Bindings
+---------------------------------------------------------------------
+local clientbuttons = mytable.join(
     awful.button({ }, 1, function (c)
         c:emit_signal("request::activate", "mouse_click", {raise = true})
     end),

@@ -1,6 +1,8 @@
--- {{{ Required libraries
+---------------------------------------------------------------------
+-- LIBS
+---------------------------------------------------------------------
 local client, awesome = client, awesome
-local awful = require("awful")
+local awful  = require("awful")
 
 -- Signal function to execute when a new client appears.
 client.connect_signal("manage", function (c)

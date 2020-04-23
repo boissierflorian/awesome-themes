@@ -1,18 +1,30 @@
+---------------------------------------------------------------------
+-- LIBS
+---------------------------------------------------------------------
 local awful = require("awful")
 local gears = require("gears")
 local lain = require("lain")
 local keys = require("bindings.keys")
-local my_table = require("my_table")
+local mytable = require("mytable")
 
+---------------------------------------------------------------------
+-- Keys
+---------------------------------------------------------------------
 local altkey = keys.altkey
 local modkey = keys.modkey
 
+---------------------------------------------------------------------
+-- Groups
+---------------------------------------------------------------------
 local groups = {
     client = "client"
 }
 
+---------------------------------------------------------------------
+-- Shortcuts
+---------------------------------------------------------------------
 local clientkeys =
-    my_table.join(
+    mytable.join(
     awful.key({altkey, "Shift"}, "m", lain.util.magnify_client, {description = "magnify client", group = groups.client}),
     awful.key(
         {modkey},

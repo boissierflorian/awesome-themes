@@ -1,14 +1,17 @@
-local screen = screen
-local gears = require("gears")
-local wibox = require("wibox")
-local awful = require("awful")
-local naughty = require("naughty")
-local beautiful = require("beautiful")
-local my_table = require("my_table")
-local clickable = require("wdgpack.clickable")
-local separators = require("wdgpack.separators")
-local dpi   = require("beautiful.xresources").apply_dpi
-local apps = require("apps")
+---------------------------------------------------------------------
+-- LIBS
+---------------------------------------------------------------------
+local screen       = screen
+local gears        = require("gears")
+local wibox        = require("wibox")
+local awful        = require("awful")
+local naughty      = require("naughty")
+local beautiful    = require("beautiful")
+local mytable      = require("mytable")
+local clickable    = require("wdgpack.clickable")
+local separators   = require("wdgpack.separators")
+local dpi          = require("beautiful.xresources").apply_dpi
+local apps         = require("apps")
 local lain_helpers = require("lain.helpers")
 
 local theme = beautiful.get()
@@ -43,7 +46,7 @@ end
 
 -- Buttons
 widget:buttons(
-    my_table.join(
+    mytable.join(
         awful.button({}, 2, hide_wrapper),
         awful.button({}, 3, hide_wrapper)
     )

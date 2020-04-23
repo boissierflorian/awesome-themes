@@ -1,7 +1,10 @@
-local screen = screen
-local awful = require("awful")
+---------------------------------------------------------------------
+-- LIBS
+---------------------------------------------------------------------
+local screen    = screen
+local awful     = require("awful")
 local beautiful = require("beautiful")
-local gears = require("gears")
+local gears     = require("gears")
 
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", function(s)

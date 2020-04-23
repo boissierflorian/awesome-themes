@@ -1,17 +1,26 @@
-local awesome, os, client, screen = awesome, os, client, screen
-local freedesktop = require("freedesktop")
-local beautiful = require("beautiful")
-local awful = require("awful")
+---------------------------------------------------------------------
+-- LIBS
+---------------------------------------------------------------------
+local awesome,       os, client, screen = awesome, os, client, screen
+local freedesktop   = require("freedesktop")
+local beautiful     = require("beautiful")
+local awful         = require("awful")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
-local apps = require("apps")
-local dpi = beautiful.xresources.apply_dpi
-local keys = require("bindings.keys")
-local lain = require("lain")
-local my_table = require("my_table")
+local apps          = require("apps")
+local dpi           = beautiful.xresources.apply_dpi
+local keys          = require("bindings.keys")
+local lain          = require("lain")
+local mytable       = require("mytable")
 
+---------------------------------------------------------------------
+-- Keys
+---------------------------------------------------------------------
 local modkey = keys.modkey
 local altkey = keys.altkey
 
+---------------------------------------------------------------------
+-- Groups
+---------------------------------------------------------------------
 local groups = {
     hotkeys = "hotkeys",
     awesome = "awesome",
@@ -25,8 +34,11 @@ local groups = {
 local vi_focus = false -- vi-like client focus - https://github.com/lcpz/awesome-copycats/issues/275
 local cycle_prev = true -- cycle trough all previous client or just the first -- https://github.com/lcpz/awesome-copycats/issues/274
 
+---------------------------------------------------------------------
+-- Shortcuts
+---------------------------------------------------------------------
 local globalkeys =
-    my_table.join(
+    mytable.join(
     -- Take a screenshot
     awful.key(
         {altkey},
@@ -548,7 +560,7 @@ for i = 1, 9 do
         descr_toggle_focus = {description = "toggle focused client on tag #", group = groups.tag}
     end
     globalkeys =
-        my_table.join(
+        mytable.join(
         globalkeys,
         -- View tag only.
         awful.key(
