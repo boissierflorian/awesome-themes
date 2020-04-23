@@ -61,18 +61,18 @@ local clientkeys =
         end,
         {description = "toggle keep on top", group = groups.client}
     ),
+    -- awful.key(
+    --     {modkey},
+    --     "n",
+    --     function(c)
+    --         -- The client currently has the input focus, so it cannot be
+    --         -- minimized, since minimized clients can't have the focus.
+    --         c.minimized = true
+    --     end,
+    --     {description = "minimize", group = groups.client}
+    -- ),
     awful.key(
-        {modkey},
-        "n",
-        function(c)
-            -- The client currently has the input focus, so it cannot be
-            -- minimized, since minimized clients can't have the focus.
-            c.minimized = true
-        end,
-        {description = "minimize", group = groups.client}
-    ),
-    awful.key(
-        {modkey},
+        {modkey, "Shift"},
         "m",
         function(c)
             c.maximized = not c.maximized

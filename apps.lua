@@ -7,4 +7,5 @@ return {
     editor    = os.getenv("EDITOR") or "code",
     guieditor = os.getenv("GUI_EDITOR") or "/opt/vscode/bin/code --no-sandbox",
     browser   = os.getenv("BROWSER") or "firefox",
+    musicplayer = "spotify"
 }

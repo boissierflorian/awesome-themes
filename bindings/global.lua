@@ -502,6 +502,14 @@ local globalkeys =
         end,
         {description = "run gui editor", group = groups.launcher}
     ),
+    awful.key(
+        {modkey},
+        "m",
+        function()
+            awful.spawn(apps.musicplayer)
+        end,
+        {description = "run music player", group = groups.launcher}
+    ),
     -- Rofi Launcher
     awful.key(
         {modkey},

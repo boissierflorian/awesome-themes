@@ -53,6 +53,9 @@ theme.vol_no                                    = theme.icon_dir .. "vol_no.png"
 theme.vol_mute                                  = theme.icon_dir .. "vol_mute.png"
 theme.disk                                      = theme.icon_dir .. "disk.png"
 theme.net                                       = theme.icon_dir .. "net.png"
+theme.net_send                                  = theme.icon_dir .. "net_send.png"
+theme.net_receive                               = theme.icon_dir .. "net_receive.png"
+theme.net_send_and_receive                      = theme.icon_dir .. "net_send_and_receive.png"
 theme.ram                                       = theme.icon_dir .. "ram.png"
 theme.shutdown                                  = theme.icon_dir .. "shutdown.png"
 theme.cancel                                    = theme.icon_dir .. "cancel.png"
@@ -61,6 +64,8 @@ theme.lock                                      = theme.icon_dir .. "lock.png"
 theme.suspend                                   = theme.icon_dir .. "suspend.png"
 theme.quit                                      = theme.icon_dir .. "quit.png"
 theme.ac                                        = theme.icon_dir .. "ac.png"
+theme.cpu                                       = theme.icon_dir .. "cpu.png"
+theme.temp                                      = theme.icon_dir .. "temp.png"
 theme.bat                                       = theme.icon_dir .. "bat.png"
 theme.bat_low                                   = theme.icon_dir .. "bat_low.png"
 theme.bat_no                                    = theme.icon_dir .. "bat_no.png"
@@ -111,7 +116,11 @@ local green  = "#8FEB8F"
 -- Separators
 local bounds_sep = separators.space(dpi(10))
 local sm_sep = separators.space(dpi(5))
-
+local vertical_sep = separators.space(dpi(8), {
+    border = true,
+    border_right = dpi(2),
+    border_color = theme.fg_focus
+})
 
 -- Textclock
 local textclock           = wibox.widget.textclock("<span font='Hack 13'>%a %b %d, %H:%M</span>")
@@ -130,10 +139,11 @@ local textclock_container = wibox.widget {
 local time_widget = wibox.container.margin(textclock_container, 0, 0, 0, dpi(4), theme.border_normal)
 time_widget.point = function(geo, args)
     return {
-        x = args.parent.width / 2,
+        x = (args.parent.width / 2),
         y = dpi(4)
     }
 end
+
 
 -- Calendar
 theme.cal = lain.widget.cal({
@@ -147,53 +157,34 @@ theme.cal = lain.widget.cal({
 
 
 -- Battery
+local bat_icon = wibox.widget.imagebox(theme.bat)
 local bat_percent = wibox.widget.textbox()
 bat_percent.font = theme.font
 bat_percent.align = "left"
-local batbar = wibox.widget {
-    forced_height    = dpi(1),
-    forced_width     = dpi(24),
-    color            = theme.fg_focus,
-    background_color = theme.bg_focus,
-    margins          = 1,
-    paddings         = 1,
-    shape            = gears.shape.rectangle,
-    widget           = wibox.widget.progressbar,
-}
-local batupd = lain.widget.bat({
+local lain_bat = lain.widget.bat({
     timeout = 1,
     settings = function()
         if (not bat_now.status) or bat_now.status == "N/A" or type(bat_now.perc) ~= "number" then return end
 
-        bat_percent.text = string.format("%d %%", bat_now.perc)
-        batbar:set_value(bat_now.perc / 100)
+        local percent = bat_now.perc
+
+        if percent > 90 then
+            bat_icon:set_image(theme.bat)
+        elseif percent > 30 then
+            bat_icon:set_image(theme.bat_low)
+        else
+            bat_icon:set_image(theme.bat_no)
+        end
+
+        bat_percent.text = string.format("%d %%", percent)
     end
 })
 
-
-local bat_shape = function(thickness, gap)
-    return function(cr, width, height)
-        -- top
-        cr:rectangle(0, 0, width, thickness)
-        -- left
-        cr:rectangle(0, 0, thickness, height)
-        -- right top part
-        cr:rectangle(width - thickness, 0, thickness, (height / 2) - gap)
-        -- right bottom part
-        cr:rectangle(width - thickness, (height / 2) + gap, thickness, height)
-        -- bottom
-        cr:rectangle(0, height - thickness, width, thickness)
-    end
-end
-
-local batbg = wibox.container.background(batbar, theme.fg_focus, bat_shape(1, 2))
-local batcontainer = wibox.container.margin(batbg, dpi(2), dpi(7), dpi(8), dpi(8))
-local bat_percent_container = wibox.container.margin(bat_percent, dpi(0), dpi(0), dpi(4), dpi(4))
 local batwidget = wibox.widget {
     layout = wibox.layout.align.horizontal,
-    batcontainer,
+    bat_icon,
     sm_sep,
-    bat_percent_container,
+    bat_percent,
 }
 
 
@@ -280,20 +271,8 @@ local volumewidget = wibox.container.margin(volumebg, dpi(2), dpi(7), dpi(4), dp
 
 -- Network
 local network_icon = wibox.widget.imagebox(theme.net)
-local network_widget = wibox.widget.textbox()
+local network_widget = wibox.widget.textbox("Net")
 network_widget.font = theme.font
-network_widget.align = "center"
--- network_widget.forced_width = dpi(85)
-
-function string_limit(value, max)
-    local svalue = tostring(value or "")
-    if svalue and #svalue > max then
-        return svalue:sub(0, max)
-    end
-
-    return svalue
-end
-
 
 local lain_net = lain.widget.net {
     wifi_state = "on",
@@ -303,23 +282,61 @@ local lain_net = lain.widget.net {
         sent = math.floor(tonumber(sent))
         received = math.floor(tonumber(received))
 
-        sent = string_limit(sent, 3)
-        received = string_limit(received, 3)
-
-        network_widget.text = string.format("%3d / %3d KB", sent, received)
+        if sent < 1 and received < 1 then
+            network_icon:set_image(theme.net)
+        else
+            if sent > 0 and received < 1 then
+                network_icon:set_image(theme.net_send)
+            elseif received > 0 and sent < 1 then
+                network_icon:set_image(theme.net_receive)
+            else
+                network_icon:set_image(theme.net_send_and_receive)
+            end
+        end
     end
 }
 
+-- RAM
 local ram_icon = wibox.widget.imagebox(theme.ram)
 local ram_widget = wibox.widget.textbox()
 ram_widget.font = theme.font
 ram_widget.align = "center"
 local lain_mem = lain.widget.mem {
     settings        = function()
-        local mem_used        = mem_now.used
+        local mem_used        = mem_now.used or 0
         ram_widget.text = mem_used .. " MB"
     end
 }
+
+-- CPU
+local cpu_icon = wibox.widget.imagebox(theme.cpu)
+local cpu_textbox = wibox.widget.textbox()
+cpu_textbox.font = theme.font
+cpu_textbox.align = "center"
+cpu_textbox.forced_width = dpi(40)
+
+local lain_cpu = lain.widget.cpu {
+    settings = function()
+        local cpu_usage = cpu_now.usage
+        cpu_textbox.text = string.format("%3d%%", cpu_usage)
+    end
+}
+
+-- Temp
+local temp_icon = wibox.widget.imagebox(theme.temp)
+local temp_textbox = wibox.widget.textbox()
+temp_textbox.font = theme.font
+temp_textbox.align = "center"
+
+local lain_temp = lain.widget.temp {
+    settings = function()
+        local temp = coretemp_now
+        temp_textbox.text = string.format("%2d°C", temp)
+    end
+}
+
+
+-- Shutdown Icon
 
 local shutdown_icon = wibox.widget.imagebox(theme.shutdown)
 
@@ -436,6 +453,10 @@ function theme.at_screen_connect(s)
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
             bounds_sep,
+            s.mylayoutbox,
+            sm_sep,
+            vertical_sep,
+            separators.space(dpi(16)),
             s.mytaglist,
         },
         { -- Middle widget
@@ -452,6 +473,14 @@ function theme.at_screen_connect(s)
             -- fsbar,
             batwidget,
             sm_sep,
+            cpu_icon,
+            sm_sep,
+            cpu_textbox,
+            sm_sep,
+            temp_icon,
+            sm_sep,
+            temp_textbox,
+            sm_sep,
             ram_icon,
             sm_sep,
             ram_widget,
@@ -462,8 +491,8 @@ function theme.at_screen_connect(s)
             network_icon,
             network_widget,
             sm_sep,
-            s.mylayoutbox,
-            sm_sep,
+            vertical_sep,
+            separators.space(dpi(8)),
             shutdown_icon,
             bounds_sep,
         },
