@@ -32,7 +32,7 @@ local groups = {
 }
 
 local vi_focus = false -- vi-like client focus - https://github.com/lcpz/awesome-copycats/issues/275
-local cycle_prev = true -- cycle trough all previous client or just the first -- https://github.com/lcpz/awesome-copycats/issues/274
+local cycle_prev = false -- cycle trough all previous client or just the first -- https://github.com/lcpz/awesome-copycats/issues/274
 
 ---------------------------------------------------------------------
 -- Shortcuts
@@ -203,7 +203,7 @@ local globalkeys =
             if cycle_prev then
                 awful.client.focus.history.previous()
             else
-                awful.client.focus.byidx(-1)
+                awful.client.focus.byidx(1)
             end
             if client.focus then
                 client.focus:raise()
@@ -212,14 +212,13 @@ local globalkeys =
         {description = "cycle with previous/go back", group = groups.client}
     ),
     awful.key(
-        {modkey, "Shift"},
+        {altkey, "Shift"},
         "Tab",
         function()
-            if cycle_prev then
-                awful.client.focus.byidx(1)
-                if client.focus then
-                    client.focus:raise()
-                end
+            awful.client.focus.byidx(-1)
+
+            if client.focus then
+                client.focus:raise()
             end
         end,
         {description = "go forth", group = groups.client}
