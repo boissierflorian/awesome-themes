@@ -70,6 +70,7 @@ theme.ac                                        = theme.icon_dir .. "ac.png"
 theme.cpu                                       = theme.icon_dir .. "cpu.png"
 theme.temp                                      = theme.icon_dir .. "temp.png"
 theme.bat                                       = theme.icon_dir .. "bat.png"
+theme.bat_med                                   = theme.icon_dir .. "bat_med.png"
 theme.bat_low                                   = theme.icon_dir .. "bat_low.png"
 theme.bat_no                                    = theme.icon_dir .. "bat_no.png"
 theme.play                                      = theme.icon_dir .. "play.png"
@@ -175,7 +176,9 @@ local lain_bat = lain.widget.bat({
 
         if percent > 90 then
             bat_icon:set_image(theme.bat)
-        elseif percent > 30 then
+        elseif percent > 60 then
+            bat_icon:set_image(theme.bat_med)
+        elseif percent > 40 then
             bat_icon:set_image(theme.bat_low)
         else
             bat_icon:set_image(theme.bat_no)
