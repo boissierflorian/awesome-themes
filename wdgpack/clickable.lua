@@ -14,7 +14,10 @@ function clickable.new(widget, args)
     local args = args or {}
     local hover_opacity = args.hover_opacity or 0.8
     local left_button_action = args.left_button_action or empty
+    local middle_button_action = args.middle_button_action or empty
     local right_button_action = args.right_button_action or empty
+    local up_button_action = args.up_button_action or empty
+    local down_button_action = args.down_button_action or empty
 
     local old_cursor, old_wibox
 
@@ -38,13 +41,17 @@ function clickable.new(widget, args)
             old_wibox = nil
         end
     end)
-
-    widget:buttons(
-        mytable.join(
-            awful.button({}, 1, left_button_action),
-            awful.button({}, 3, right_button_action)
-        )
+    
+    local  widget_buttons = mytable.join(
+        awful.button({}, 1, left_button_action),
+        awful.button({}, 2, middle_button_action),
+        awful.button({}, 3, right_button_action),
+        awful.button({}, 4, up_button_action),
+        awful.button({}, 5, down_button_action)
     )
+
+    -- TODO  : Find a way to retrieve old buttons mapping in order to preserve them ...
+     widget: buttons(widget_buttons)
 
     return widget
 end

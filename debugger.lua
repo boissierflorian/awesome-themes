@@ -9,18 +9,19 @@ debugger.notify = function(message)
     naughty.notify({
         preset = naughty.config.presets.critical,
         title = "Debugger",
-        text = tostring(message) 
+        text = message and tostring(message) or "No message", 
     })
 end
 
 debugger.table_keys = function(table)
     if not table or type(table) ~= "table" then return end
     local keys = {}
-
+    
     for k, _ in pairs(table) do
-        keys[#keys + 1] = k
+        keys[#keys + 1] = tostring(k)
     end
 
+    -- debugger.notify(debugger.table_to_string(keys))
     return keys
 end
 

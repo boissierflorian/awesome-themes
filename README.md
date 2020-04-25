@@ -35,4 +35,4 @@
 
 _Inspired by minimal theme from i3_
 
-![Minimal](themes/minimal/preview.png)
+![Minimal](themes/minimal/images/preview.png)

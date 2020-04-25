@@ -17,7 +17,7 @@ local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 local dpi           = require("beautiful.xresources").apply_dpi
 
-local DEV_MODE = false
+local DEV_MODE = true
 if DEV_MODE then require("debugger") end
 
 -- Legacy
