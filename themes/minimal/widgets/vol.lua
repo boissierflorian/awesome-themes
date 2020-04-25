@@ -15,6 +15,8 @@ local function factory(theme)
     return info_widget(theme, {
         icon = theme.vol,
         lain_init = function(textbox, icon)
+            textbox.forced_width = dpi(40)
+
             local lain_alsabar = lain.widget.alsabar {
                 width = dpi(59), border_width = 0,
                 notification_preset = { font = theme.font },

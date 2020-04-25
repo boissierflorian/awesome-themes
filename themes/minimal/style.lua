@@ -11,7 +11,16 @@ local dpi           = require("beautiful.xresources").apply_dpi
 local theme_style = style({
     theme_directory = string.format("%s/minimal", beautiful.themes_dir),
     wallpaper = "images/wall.png",
+})
+
+---------------------------------------------------------------------
+-- FONTS
+---------------------------------------------------------------------
+theme_style.fonts({
     font = "Hack 10",
+    clock_font = "Hack 13",
+    clock_format = "%a %b %d, %H:%M",
+    calendar_font = "Hack 10,"
 })
 
 ---------------------------------------------------------------------

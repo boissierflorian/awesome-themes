@@ -9,11 +9,9 @@ function style.new(args)
 
     -- Legacy
     style.theme.wallpaper = style.theme_directory .. "/" .. args.wallpaper
-    style.theme.font = args.font
 
     return style
 end
-
 
 function style.icon(path)
     local icon_key = path:match[[^(.+)%.%a+$]]
@@ -35,6 +33,7 @@ end
 function style.colors(colors) merge_values(colors) end
 function style.units(units) merge_values(units) end
 function style.flags(flags) merge_values(flags) end
+function style.fonts(fonts) merge_values(fonts) end
 
 function style.mt:__call(...) return style.new(...) end
 

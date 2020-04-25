@@ -9,9 +9,14 @@ local dpi        = require("beautiful.xresources").apply_dpi
 local clock_sep  = separators.space(dpi(8))
 
 local function factory(theme)
-    local textclock     = wibox.widget.textclock("<span font='Hack 13'>%a %b %d, %H:%M</span>")
-    textclock.font      = theme.font
-    textclock.align     = "center"
+    local clock_font = theme.clock_font
+    local calendar_font = theme.calendar_font
+    local clock_format = theme.clock_format
+
+    local textclock_markup = string.format("<span font='%s'>%s</span>", clock_font, clock_format)
+    local textclock        = wibox.widget.textclock(textclock_markup)
+          textclock.font   = clock_font
+          textclock.align  = "center"
 
     local textclock_container = wibox.widget {
         layout = wibox.layout.fixed.horizontal,
@@ -24,7 +29,7 @@ local function factory(theme)
     theme.cal = lain.widget.cal({
         attach_to = { textclock },
         notification_preset = {
-            font = "Hack 12",
+            font = calendar_font,
             fg   = theme.fg_normal,
             bg   = theme.bg_normal
         }

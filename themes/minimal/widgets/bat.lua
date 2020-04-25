@@ -9,8 +9,10 @@ local function factory(theme)
     return info_widget(theme, {
         icon      = theme.bat,
         lain_init = function(textbox, icon)
+            textbox.forced_width = dpi(44)
+
             local lain_bat  = lain.widget.bat({
-                timeout = 1,
+                timeout = 2,
                 settings = function()
                     if (not bat_now.status) or bat_now.status == "N/A" or type(bat_now.perc) ~= "number" then return end
 
