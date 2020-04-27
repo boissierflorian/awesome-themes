@@ -38,6 +38,8 @@ theme_style.units({
     screen_padding_left              = dpi(40),
     screen_padding_right             = dpi(40),
     screen_padding_bottom            = dpi(10),
+    screen_padding_bottom            = dpi(10),
+    notification_icon_size           = dpi(30),
 })
 
 ---------------------------------------------------------------------

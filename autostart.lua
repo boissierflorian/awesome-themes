@@ -12,5 +12,6 @@ end
 
 --run_once({ "urxvtd", "unclutter -root" }) -- entries must be separated by commas
 run_once({
+    "numlockx on",
     "compton -c --backend glx --vsync opengl-swc"
 })
