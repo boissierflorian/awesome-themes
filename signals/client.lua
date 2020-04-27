@@ -16,4 +16,17 @@ client.connect_signal("manage", function (c)
         -- Prevent clients from being unreachable after screen count changes.
         awful.placement.no_offscreen(c)
     end
+
+    -- Disable maximized status by default
+    local current_tag = awful.screen.focused().selected_tag
+    local current_layout = current_tag.layout
+
+    -- TODO: stateful layouts aren't supported yet
+    if type(current_layout) == "table" then
+      if current_layout.name ~= "max" then
+        if c.maximized then
+          c.maximized = false
+        end
+      end
+    end
 end)
