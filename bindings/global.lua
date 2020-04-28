@@ -521,6 +521,15 @@ local globalkeys =
         end,
         {description = "run music player", group = groups.launcher}
     ),
+    -- Screenshot
+    awful.key(
+        {},
+        "Print",
+        function()
+            os.execute(apps.screenshot)
+        end,
+        {description = "Take screenshot", group = groups.hotkeys}
+    ),
     -- Rofi Launcher
     awful.key(
         {modkey},

@@ -24,9 +24,7 @@ client.connect_signal("manage", function (c)
     -- TODO: stateful layouts aren't supported yet
     if type(current_layout) == "table" then
       if current_layout.name ~= "max" then
-        if c.maximized then
-          c.maximized = false
-        end
+        c.maximized = false
       end
     end
 end)
