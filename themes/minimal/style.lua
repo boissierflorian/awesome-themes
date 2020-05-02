@@ -4,6 +4,7 @@
 local beautiful     = require("beautiful")
 local style         = require("themes.base.style")
 local dpi           = require("beautiful.xresources").apply_dpi
+local naughty       = require("naughty")
 
 ---------------------------------------------------------------------
 -- STYLE
@@ -12,6 +13,12 @@ local theme_style = style({
     theme_directory = string.format("%s/minimal", beautiful.themes_dir),
     wallpaper = "images/wall.png",
 })
+
+---------------------------------------------------------------------
+-- NOTIFICATIONS
+---------------------------------------------------------------------
+naughty.config.padding = dpi(16)
+
 
 ---------------------------------------------------------------------
 -- FONTS

@@ -4,21 +4,13 @@ require "luarocks.loader"
 ---------------------------------------------------------------------
 -- LIBS
 ---------------------------------------------------------------------
-local awesome, client, mouse, screen, tag = awesome, client, mouse, screen, tag
-local ipairs, string, os, table, tostring, tonumber, type = ipairs, string, os, table, tostring, tonumber, type
+local os = os
 
-local gears         = require("gears")
-local awful         = require("awful")
-local wibox         = require("wibox")
-local beautiful     = require("beautiful")
-local naughty       = require("naughty")
-local lain          = require("lain")
 local freedesktop   = require("freedesktop")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
-local dpi           = require("beautiful.xresources").apply_dpi
 
-local DEV_MODE = false
-if DEV_MODE then require("debugger") end
+local DEBUG = false
+if DEBUG then require("debugger") end
 
 -- Legacy
 require("awful.hotkeys_popup.keys")
