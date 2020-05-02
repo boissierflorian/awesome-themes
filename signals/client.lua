@@ -4,6 +4,7 @@
 local client, awesome = client, awesome
 local awful  = require("awful")
 local centered = awful.placement.centered
+local table = { sort = table.sort }
 
 -- Signal function to execute when a new client appears.
 client.connect_signal("manage", function (c)
@@ -34,4 +35,48 @@ client.connect_signal("manage", function (c)
       centered(c.focus)
       c.floating = true
     end
+end)
+
+local function sort_slaves_by_index(a, b)
+  local idx_a = awful.client.idx(a).idx
+  local idx_b = awful.client.idx(b).idx
+
+  return idx_a < idx_b
+end
+
+local function rearrange_slaves(focused_client)
+  -- Get master client
+  local master_client = awful.client.getmaster()
+  if not master_client then return end
+
+  -- We've focused back master client
+  if focused_client.window == master_client.window then
+    local clients = awful.screen.focused().clients
+
+    -- We need to sort tiled clients by their layout index
+    table.sort(clients, sort_slaves_by_index)
+    
+    -- Raise these clients back except the master client
+    local clients_size = #clients
+    for i = 1, clients_size do
+      local client = clients[i]
+
+      if client.window ~= master_client.window then
+        client:raise()
+      end
+    end 
+  end
+end
+
+client.connect_signal("focus", function(c)
+  if awesome.startup then return end
+
+  local current_tag    = awful.screen.focused().selected_tag
+  local current_layout = current_tag.layout
+
+  if type(current_layout) == "table" then
+    if current_layout.name == "cascadetile" then
+      rearrange_slaves(c)
+    end
+  end
 end)
