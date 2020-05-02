@@ -3,6 +3,7 @@
 ---------------------------------------------------------------------
 local client, awesome = client, awesome
 local awful  = require("awful")
+local centered = awful.placement.centered
 
 -- Signal function to execute when a new client appears.
 client.connect_signal("manage", function (c)
@@ -26,5 +27,11 @@ client.connect_signal("manage", function (c)
       if current_layout.name ~= "max" then
         c.maximized = false
       end
+    end
+
+    -- Centered and movable dialogs
+    if c.type == "dialog" then
+      centered(c.focus)
+      c.floating = true
     end
 end)
