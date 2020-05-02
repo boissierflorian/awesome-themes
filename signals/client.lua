@@ -51,7 +51,7 @@ local function rearrange_slaves(focused_client)
 
   -- We've focused back master client
   if focused_client.window == master_client.window then
-    local clients = awful.screen.focused().clients
+    local clients = awful.screen.focused().tiled_clients
 
     -- We need to sort tiled clients by their layout index
     table.sort(clients, sort_slaves_by_index)
